@@ -1,13 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
-class Tema {
-  String nombre;
-  int cantidadEstudiantes;
-  List<String> estudiantesAsignados = [];
-  Tema(this.nombre, this.cantidadEstudiantes);
-}
-List<Tema> temas = [];
+List<Map<String, dynamic>> temas = [];
 List<String> estudiantes = [];
 
 void main() {
@@ -86,7 +80,11 @@ void crearTema() {
       leerEntradaUsuario("Ingrese el nombre del tema de exposición: ");
   int cantidad =
       leerEnteroUsuario("Ingrese la cantidad de estudiantes para este tema: ");
-  temas.add(Tema(nombre, cantidad));
+  temas.add({
+    'nombre': nombre,
+    'cantidadEstudiantes': cantidad,
+    'estudiantesAsignados': []
+  });
   print("Tema creado correctamente");
 }
 
@@ -101,8 +99,8 @@ void editarTema() {
         leerEntradaUsuario("Ingrese el nuevo nombre del tema: ");
     int nuevaCantidad =
         leerEnteroUsuario("Ingrese la nueva cantidad de estudiantes: ");
-    temas[indice].nombre = nuevoNombre;
-    temas[indice].cantidadEstudiantes = nuevaCantidad;
+    temas[indice]['nombre'] = nuevoNombre;
+    temas[indice]['cantidadEstudiantes'] = nuevaCantidad;
     print("Tema editado correctamente");
   } else {
     print("Índice inválido");
@@ -116,7 +114,7 @@ void mostrarTemas() {
     print('Lista de temas:');
     for (int i = 0; i < temas.length; i++) {
       print(
-          '${i + 1}. ${temas[i].nombre} (${temas[i].cantidadEstudiantes} estudiantes)');
+          '${i + 1}. ${temas[i]['nombre']} (${temas[i]['cantidadEstudiantes']} estudiantes)');
     }
   }
 }
@@ -228,7 +226,7 @@ void asignarEstudiantesAleatoriamente() {
 
   // Resetear asignaciones previas
   for (var tema in temas) {
-    tema.estudiantesAsignados.clear();
+    tema['estudiantesAsignados'] = [];
   }
 
   List<String> estudiantesSinAsignar = List.from(estudiantes);
@@ -236,11 +234,12 @@ void asignarEstudiantesAleatoriamente() {
 
   for (var tema in temas) {
     int cantidadAsignar =
-        min(tema.cantidadEstudiantes, estudiantesSinAsignar.length);
+        min(tema['cantidadEstudiantes'], estudiantesSinAsignar.length);
     for (int i = 0; i < cantidadAsignar; i++) {
       if (estudiantesSinAsignar.isNotEmpty) {
         int indiceAleatorio = random.nextInt(estudiantesSinAsignar.length);
-        tema.estudiantesAsignados.add(estudiantesSinAsignar[indiceAleatorio]);
+        tema['estudiantesAsignados']
+            .add(estudiantesSinAsignar[indiceAleatorio]);
         estudiantesSinAsignar.removeAt(indiceAleatorio);
       }
     }
@@ -249,8 +248,8 @@ void asignarEstudiantesAleatoriamente() {
   // Mostrar resultados
   print("\nAsignación de estudiantes a temas:");
   for (var tema in temas) {
-    print("${tema.nombre}:");
-    for (var estudiante in tema.estudiantesAsignados) {
+    print("${tema['nombre']}:");
+    for (var estudiante in tema['estudiantesAsignados']) {
       print("  - $estudiante");
     }
   }
@@ -265,15 +264,51 @@ void asignarEstudiantesAleatoriamente() {
 
 void precargarDatosPrueba() {
   temas = [
-    Tema("que es POO?", 3),
-    Tema("difrencia entre POO y PE", 3),
-    Tema("objeto, clase y cual es la diferencia ", 3),
-    Tema("que es abstraccion?", 3),
-    Tema("que es encapsulacion?", 3),
-    Tema("que es la herencia?", 4),
-    Tema("que es polimorfismo y de un ejemplo", 4),
-    Tema("principales diagramas de UML", 4),
-    Tema("que es la herencia?", 4),
+    {
+      'nombre': "que es POO?",
+      'cantidadEstudiantes': 3,
+      'estudiantesAsignados': []
+    },
+    {
+      'nombre': "difrencia entre POO y PE",
+      'cantidadEstudiantes': 3,
+      'estudiantesAsignados': []
+    },
+    {
+      'nombre': "objeto, clase y cual es la diferencia ",
+      'cantidadEstudiantes': 3,
+      'estudiantesAsignados': []
+    },
+    {
+      'nombre': "que es abstraccion?",
+      'cantidadEstudiantes': 3,
+      'estudiantesAsignados': []
+    },
+    {
+      'nombre': "que es encapsulacion?",
+      'cantidadEstudiantes': 3,
+      'estudiantesAsignados': []
+    },
+    {
+      'nombre': "que es la herencia?",
+      'cantidadEstudiantes': 4,
+      'estudiantesAsignados': []
+    },
+    {
+      'nombre': "que es polimorfismo y de un ejemplo",
+      'cantidadEstudiantes': 4,
+      'estudiantesAsignados': []
+    },
+    {
+      'nombre': "principales diagramas de UML",
+      'cantidadEstudiantes': 4,
+      'estudiantesAsignados': []
+    },
+    {
+      'nombre': "que es la herencia?",
+      'cantidadEstudiantes': 4,
+      'estudiantesAsignados': []
+    },
   ];
 
   estudiantes = [
